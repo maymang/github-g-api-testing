@@ -1,33 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="auto">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gemini AI Chat</title>
+  <title>Groq AI Chat | فائقة السرعة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --border: #334155;
-      --accent: #38bdf8;
-      --accent-hover: #0284c7;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --user-msg: #2563eb;
-      --bot-msg: #334155;
+      --bg-dark: #090d16;
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --groq-orange: #f55036;
+      --groq-gradient: linear-gradient(135deg, #f55036 0%, #ff8c42 100%);
+      --accent-glow: rgba(245, 80, 54, 0.25);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --user-msg: linear-gradient(135deg, #2563eb, #1d4ed8);
+      --bot-msg: rgba(30, 41, 59, 0.85);
+      --code-bg: #030712;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Outfit', 'Tajawal', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background: radial-gradient(circle at 50% 0%, #171f38 0%, var(--bg-dark) 70%);
+      color: var(--text-main);
       display: flex;
       flex-direction: column;
       height: 100vh;
@@ -35,64 +40,140 @@
     }
 
     header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 1.5rem;
+      background: rgba(13, 17, 28, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.85rem 1.5rem;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
+      z-index: 10;
     }
 
-    .key-form {
+    .brand {
       display: flex;
-      gap: 0.5rem;
-      flex-grow: 1;
-      max-width: 520px;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    input,
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--groq-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--accent-glow);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .brand-title span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
     select,
-    textarea,
-    button {
-      background: #0b1120;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 8px;
-      padding: 0.6rem 0.8rem;
-      font-size: 0.9rem;
+    input,
+    button,
+    textarea {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.85rem;
       outline: none;
+      transition: all 0.2s ease;
     }
 
+    select:focus,
     input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--accent);
+    textarea:focus {
+      border-color: var(--groq-orange);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
-    input[type="password"] {
-      flex: 1;
-    }
-
-    button {
-      background: var(--accent);
-      color: #0b1120;
-      font-weight: 600;
-      border: none;
+    select {
       cursor: pointer;
-      transition: background 0.2s ease;
-      white-space: nowrap;
     }
 
-    button:hover {
-      background: var(--accent-hover);
+    select option {
+      background: #0f172a;
       color: #fff;
     }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .badge-live {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
 
     #chat-container {
@@ -101,189 +182,550 @@
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      gap: 1.2rem;
+      scroll-behavior: smooth;
+    }
+
+    .empty-state {
+      margin: auto;
+      max-width: 580px;
+      text-align: center;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 1rem;
     }
 
-    .message {
-      max-width: 80%;
-      padding: 0.85rem 1.1rem;
-      border-radius: 12px;
+    .empty-state-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--groq-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .empty-state h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
       line-height: 1.5;
+    }
+
+    .quick-prompts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .quick-prompt-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      text-align: start;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .quick-prompt-btn:hover {
+      background: rgba(245, 80, 54, 0.08);
+      border-color: rgba(245, 80, 54, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .message-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      max-width: 82%;
+    }
+
+    .message-wrapper.user {
+      align-self: flex-end;
+    }
+
+    .message-wrapper.bot {
+      align-self: flex-start;
+    }
+
+    .message-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding: 0 0.4rem;
+    }
+
+    .message {
+      padding: 0.95rem 1.2rem;
+      border-radius: 16px;
+      line-height: 1.6;
       font-size: 0.95rem;
       word-break: break-word;
       white-space: pre-wrap;
+      position: relative;
     }
 
-    .message.user {
-      align-self: flex-end;
+    .message-wrapper.user .message {
       background: var(--user-msg);
-      border-bottom-right-radius: 2px;
+      border-bottom-right-radius: 4px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
     }
 
-    .message.bot {
-      align-self: flex-start;
+    .message-wrapper.bot .message {
       background: var(--bot-msg);
-      border-bottom-left-radius: 2px;
+      border: 1px solid var(--card-border);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     }
 
-    .message.status {
-      align-self: center;
-      background: transparent;
-      color: var(--text-muted);
+    .metrics-bar {
+      font-size: 0.7rem;
+      color: #f55036;
+      background: rgba(245, 80, 54, 0.08);
+      border: 1px solid rgba(245, 80, 54, 0.2);
+      border-radius: 6px;
+      padding: 0.15rem 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      width: fit-content;
+      margin-top: 0.3rem;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
-      font-style: italic;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+      color: #e2e8f0;
+      direction: ltr;
+      text-align: left;
     }
 
     #input-container {
-      background: var(--card);
-      border-top: 1px solid var(--border);
+      background: rgba(13, 17, 28, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--card-border);
       padding: 1rem 1.5rem;
       display: flex;
-      gap: 0.8rem;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .input-box {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
     }
 
     #user-prompt {
       flex: 1;
       resize: none;
-      height: 52px;
+      height: 54px;
+      max-height: 160px;
+      padding: 0.85rem 1rem;
+      font-size: 0.95rem;
+      border-radius: 12px;
+      background: rgba(17, 24, 39, 0.8);
+      border: 1px solid var(--card-border);
+      line-height: 1.4;
     }
 
-    #status-badge {
+    .send-btn {
+      background: var(--groq-gradient);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.92rem;
+      box-shadow: 0 0 16px var(--accent-glow);
+      transition: all 0.2s ease;
+      height: 54px;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 0 24px rgba(245, 80, 54, 0.45);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 0.75rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 999px;
-      background: #7f1d1d;
-      color: #fca5a5;
+      color: var(--text-muted);
+      padding: 0 0.25rem;
     }
 
-    #status-badge.active {
-      background: #064e3b;
-      color: #6ee7b7;
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 480px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .typing-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--groq-orange);
+      margin: 0 2px;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>إعدادات Groq API</h3>
+        <button class="modal-close" id="close-settings-btn">&times;</button>
+      </div>
+      <div>
+        <label style="display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:0.4rem;">مفتاح API Key:</label>
+        <input type="password" id="api-key-input" style="width:100%;" placeholder="gsk_..." />
+      </div>
+      <div>
+        <label style="display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:0.4rem;">System Prompt (التعليمات التوجيهية):</label>
+        <textarea id="system-prompt-input" rows="3" style="width:100%; resize:vertical;" placeholder="أنت مساعد ذكي ولطيف تتحدث العربية والإنجليزية بطلاقة..."></textarea>
+      </div>
+      <div>
+        <label style="display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:0.4rem;">درجة الإبداع (Temperature): <span id="temp-val">0.7</span></label>
+        <input type="range" id="temp-slider" min="0" max="1.5" step="0.1" value="0.7" style="width:100%; accent-color:var(--groq-orange);" />
+      </div>
+      <button id="save-settings-btn" class="send-btn" style="width:100%; justify-content:center;">حفظ الإعدادات</button>
+    </div>
+  </div>
+
   <header>
-    <div style="display:flex; align-items:center; gap:0.6rem;">
-      <h2>Gemini Client</h2>
-      <span id="status-badge">Key Missing</span>
+    <div class="brand">
+      <div class="brand-logo">⚡</div>
+      <div class="brand-title">
+        <h1>Groq AI Chat</h1>
+        <span>Powered by Groq LPUs™ (Ultra Low Latency)</span>
+      </div>
     </div>
 
-    <div class="key-form" style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
-      <select id="model-select">
-        <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
-        <option value="gemini-3.8-pro">Gemini 3.8 Pro</option>
+    <div class="header-actions">
+      <select id="model-select" title="اختر النموذج">
+        <option value="qwen/qwen3.8-27b" selected>Qwen 3.8 (27B) - ذكي وسريع جداً ⚡</option>
+        <option value="openai/gpt-oss-120b">GPT-OSS 120B - الأقوى والأذكى 🧠</option>
+        <option value="openai/gpt-oss-20b">GPT-OSS 20B - سرعة فائقة 🚀</option>
+        <option value="allam-2-7b">Allam 2 (7B) - نموذج متخصص بالعربية 🇸🇦</option>
       </select>
-      <label style="display:inline-flex; align-items:center; gap:0.3rem; font-size:0.85rem; color:var(--text-muted); cursor:pointer; user-select:none;">
-        <input type="checkbox" id="fast-mode" checked style="cursor:pointer; width:16px; height:16px; accent-color:var(--accent);" />
-        ⚡ Fast (No Thinking Delay)
-      </label>
-      <input type="password" id="api-key" placeholder="Enter Gemini API Key (AIzaSy...)" />
-      <button id="save-key-btn">Save Key</button>
+
+      <span class="badge badge-live" id="status-badge">Groq جاهز</span>
+
+      <button class="btn-icon" id="settings-btn" title="الإعدادات">
+        ⚙️ الإعدادات
+      </button>
+
+      <button class="btn-icon" id="clear-btn" title="مسح المحادثة">
+        🗑️ مسح
+      </button>
     </div>
   </header>
 
   <div id="chat-container">
-    <div class="message status">Enter your API key above to start prompting.</div>
+    <div class="empty-state" id="empty-state">
+      <div class="empty-state-icon">⚡</div>
+      <h2>أهلاً بك في شات Groq فائق السرعة</h2>
+      <p>يتم تشغيل النماذج عبر معالجات Groq LPUs™ للاستجابة اللحظية وبسرعة تفوق 300 كلمة في الثانية.</p>
+      
+      <div class="quick-prompts">
+        <button class="quick-prompt-btn" data-prompt="اكتب لي كود بايثون سريع لقراءة ملف JSON والتعامل مع الأخطاء.">
+          🐍 كود بايثون سريع لقراءة JSON
+        </button>
+        <button class="quick-prompt-btn" data-prompt="اشرح لي نظرية النسبية العامة لأينشتاين بأسلوب مبسط جداً وممتع.">
+          🌌 شرح مبسط للنسبية العامة
+        </button>
+        <button class="quick-prompt-btn" data-prompt="ما هي أفضل الاستراتيجيات لتحسين أداء قواعد البيانات والتطبيقات؟">
+          ⚡ نصائح تسريع التطبيقات وقواعد البيانات
+        </button>
+        <button class="quick-prompt-btn" data-prompt="اكتب لي رسالة بريد إلكتروني احترافية لطلب اجتماع عمل.">
+          ✉️ إيميل احترافي لطلب اجتماع
+        </button>
+      </div>
+    </div>
   </div>
 
   <div id="input-container">
-    <textarea id="user-prompt" placeholder="Type your prompt here... (Press Shift+Enter for new line)"></textarea>
-    <button id="send-btn" disabled>Send</button>
+    <div class="input-box">
+      <textarea id="user-prompt" placeholder="اكتب سؤالك هنا... (اضغط Enter للإرسال، و Shift+Enter لسطر جديد)"></textarea>
+      <button class="send-btn" id="send-btn">
+        <span>إرسال</span>
+        <span>⚡</span>
+      </button>
+    </div>
+    <div class="footer-bar">
+      <span>مفتاح Groq LPU مُفعّل | Enter للإرسال السريع</span>
+      <span id="speed-meter">جاهز للإرسال</span>
+    </div>
   </div>
 
   <script>
+    // Groq configuration - Default API key provided by user
+    const DEFAULT_API_KEY = "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";
+    const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+
     const chatContainer = document.getElementById('chat-container');
-    const apiKeyInput = document.getElementById('api-key');
-    const saveKeyBtn = document.getElementById('save-key-btn');
-    const modelSelect = document.getElementById('model-select');
-    const fastMode = document.getElementById('fast-mode');
+    const emptyState = document.getElementById('empty-state');
     const userPrompt = document.getElementById('user-prompt');
     const sendBtn = document.getElementById('send-btn');
-    const statusBadge = document.getElementById('status-badge');
+    const modelSelect = document.getElementById('model-select');
+    const speedMeter = document.getElementById('speed-meter');
+    const clearBtn = document.getElementById('clear-btn');
+    const settingsBtn = document.getElementById('settings-btn');
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    const settingsModal = document.getElementById('settings-modal');
+    const apiKeyInput = document.getElementById('api-key-input');
+    const systemPromptInput = document.getElementById('system-prompt-input');
+    const tempSlider = document.getElementById('temp-slider');
+    const tempVal = document.getElementById('temp-val');
+    const saveSettingsBtn = document.getElementById('save-settings-btn');
 
     let chatHistory = [];
+    let isGenerating = false;
+    let abortController = null;
 
-    // Load key from sessionStorage if present
-    const savedKey = sessionStorage.getItem('gemini_api_key');
-    if (savedKey) {
+    // Load saved settings
+    function loadSettings() {
+      const savedKey = localStorage.getItem('groq_api_key') || DEFAULT_API_KEY;
       apiKeyInput.value = savedKey;
-      setReadyState(true);
+
+      const savedSys = localStorage.getItem('groq_system_prompt') || "أنت مساعد ذكي ومفيد يجيب بلغة المستخدم المختارة بوضوح ودقة وسرعة.";
+      systemPromptInput.value = savedSys;
+
+      const savedTemp = localStorage.getItem('groq_temp') || "0.7";
+      tempSlider.value = savedTemp;
+      tempVal.textContent = savedTemp;
     }
 
-    saveKeyBtn.addEventListener('click', () => {
-      const key = apiKeyInput.value.trim();
-      if (!key) {
-        alert('Please enter a valid API key.');
-        return;
-      }
-      sessionStorage.setItem('gemini_api_key', key);
-      setReadyState(true);
+    loadSettings();
+
+    tempSlider.addEventListener('input', () => {
+      tempVal.textContent = tempSlider.value;
     });
 
-    function setReadyState(isReady) {
-      if (isReady) {
-        statusBadge.textContent = 'Key Loaded';
-        statusBadge.classList.add('active');
-        sendBtn.disabled = false;
-      } else {
-        statusBadge.textContent = 'Key Missing';
-        statusBadge.classList.remove('active');
-        sendBtn.disabled = true;
+    settingsBtn.addEventListener('click', () => {
+      settingsModal.style.display = 'flex';
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+      settingsModal.style.display = 'none';
+    });
+
+    saveSettingsBtn.addEventListener('click', () => {
+      localStorage.setItem('groq_api_key', apiKeyInput.value.trim() || DEFAULT_API_KEY);
+      localStorage.setItem('groq_system_prompt', systemPromptInput.value.trim());
+      localStorage.setItem('groq_temp', tempSlider.value);
+      settingsModal.style.display = 'none';
+      alert('تم حفظ الإعدادات بنجاح!');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      if (chatHistory.length === 0) return;
+      if (confirm('هل تريد مسح كل الرسائل وبدء محادثة جديدة؟')) {
+        chatHistory = [];
+        chatContainer.innerHTML = '';
+        chatContainer.appendChild(emptyState);
+        emptyState.style.display = 'flex';
+        speedMeter.textContent = 'تم مسح المحادثة';
       }
+    });
+
+    // Quick prompt clicks
+    document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-prompt');
+        userPrompt.value = text;
+        userPrompt.focus();
+        sendPrompt();
+      });
+    });
+
+    function formatTextWithCode(text) {
+      // Escaping HTML
+      const escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      // Replace markdown code blocks ```code```
+      const withCodeBlocks = escaped.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        return `<pre class="code-block"><code>${code.trim()}</code></pre>`;
+      });
+
+      // Replace inline code `code`
+      const withInlineCode = withCodeBlocks.replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.1); padding:0.1rem 0.35rem; border-radius:4px; font-family:\'JetBrains Mono\';">$1</code>');
+
+      // Bold text **bold**
+      return withInlineCode.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     }
 
-    function appendMessage(text, role) {
+    function appendMessage(text, role, modelName = '') {
+      if (emptyState && emptyState.parentNode) {
+        emptyState.style.display = 'none';
+      }
+
+      const wrapper = document.createElement('div');
+      wrapper.className = `message-wrapper ${role}`;
+
+      const header = document.createElement('div');
+      header.className = 'message-header';
+      header.textContent = role === 'user' ? 'أنت' : `Groq (${modelName || modelSelect.value.split('/')[1] || modelSelect.value})`;
+      wrapper.appendChild(header);
+
       const msg = document.createElement('div');
-      msg.className = `message ${role}`;
-      msg.textContent = text;
-      chatContainer.appendChild(msg);
+      msg.className = 'message';
+      if (role === 'user') {
+        msg.textContent = text;
+      } else {
+        msg.innerHTML = formatTextWithCode(text);
+      }
+      wrapper.appendChild(msg);
+
+      chatContainer.appendChild(wrapper);
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      return msg;
+      return { wrapper, msg, header };
     }
 
     async function sendPrompt() {
-      const prompt = userPrompt.value.trim();
-      const apiKey = sessionStorage.getItem('gemini_api_key') || apiKeyInput.value.trim();
-      const model = modelSelect.value;
+      if (isGenerating) return;
 
-      if (!prompt || !apiKey) return;
+      const prompt = userPrompt.value.trim();
+      const apiKey = localStorage.getItem('groq_api_key') || DEFAULT_API_KEY;
+      const model = modelSelect.value;
+      const systemPrompt = localStorage.getItem('groq_system_prompt') || "أنت مساعد ذكي ومفيد.";
+      const temperature = parseFloat(localStorage.getItem('groq_temp') || "0.7");
+
+      if (!prompt) return;
 
       appendMessage(prompt, 'user');
       userPrompt.value = '';
+      userPrompt.style.height = '54px';
 
-      // Append user turn to conversation history
-      chatHistory.push({
-        role: "user",
-        parts: [{ text: prompt }]
-      });
+      chatHistory.push({ role: "user", content: prompt });
 
-      const loadingMsg = appendMessage("Generating...", "status");
+      // Prepare Messages Payload with System Prompt
+      const messagesPayload = [
+        { role: "system", content: systemPrompt },
+        ...chatHistory
+      ];
+
+      isGenerating = true;
       sendBtn.disabled = true;
+      sendBtn.innerHTML = `<span>انتظار</span><span class="typing-dot"></span><span class="typing-dot"></span>`;
+      speedMeter.textContent = "جاري الاتصال بمعالجات Groq LPU...";
 
-      // Enable streaming for real-time word-by-word responses
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
+      // Create Assistant placeholder
+      const { wrapper, msg } = appendMessage('', 'bot', model.split('/').pop());
+      msg.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>`;
 
-      const payload = {
-        contents: chatHistory
-      };
+      const startTime = performance.now();
+      let tokenCount = 0;
+      let fullReply = '';
 
-      // If Fast Mode is checked, disable thinking budget so responses start in under 1 second
-      if (fastMode && fastMode.checked) {
-        payload.generationConfig = {
-          thinkingConfig: {
-            thinkingBudget: 0
-          }
-        };
-      }
+      abortController = new AbortController();
 
       try {
-        const response = await fetch(endpoint, {
+        const response = await fetch(GROQ_ENDPOINT, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: model,
+            messages: messagesPayload,
+            temperature: temperature,
+            stream: true
+          }),
+          signal: abortController.signal
         });
 
         if (!response.ok) {
@@ -294,12 +736,11 @@
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
-        let fullReply = '';
-        let botMsg = null;
 
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
+
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split('\n');
           buffer = lines.pop();
@@ -312,18 +753,16 @@
 
             try {
               const parsed = JSON.parse(jsonStr);
-              const parts = parsed.candidates?.[0]?.content?.parts || [];
-              for (const part of parts) {
-                // Ignore internal thinking thoughts and stream actual response
-                if (part.text && !part.thought) {
-                  if (!botMsg) {
-                    if (loadingMsg.parentNode) chatContainer.removeChild(loadingMsg);
-                    botMsg = appendMessage('', 'bot');
-                  }
-                  fullReply += part.text;
-                  botMsg.textContent = fullReply;
-                  chatContainer.scrollTop = chatContainer.scrollHeight;
-                }
+              const deltaContent = parsed.choices?.[0]?.delta?.content;
+              if (deltaContent) {
+                fullReply += deltaContent;
+                tokenCount++;
+                msg.innerHTML = formatTextWithCode(fullReply);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                const elapsedSec = (performance.now() - startTime) / 1000;
+                const tokensPerSec = Math.round(tokenCount / (elapsedSec || 0.001));
+                speedMeter.textContent = `⚡ السرعة: ${tokensPerSec} كلمة/ثانية | الوقت: ${elapsedSec.toFixed(2)}ث`;
               }
             } catch (e) {
               console.warn("Parse chunk error:", e);
@@ -331,21 +770,28 @@
           }
         }
 
+        const totalElapsedSec = (performance.now() - startTime) / 1000;
+        const finalSpeed = Math.round(tokenCount / (totalElapsedSec || 0.001));
+
         if (!fullReply) {
-          if (loadingMsg.parentNode) chatContainer.removeChild(loadingMsg);
-          appendMessage("No response received.", 'bot');
+          msg.textContent = "لم يتم استلام أي نص من النموذج.";
         } else {
-          chatHistory.push({
-            role: "model",
-            parts: [{ text: fullReply }]
-          });
+          chatHistory.push({ role: "assistant", content: fullReply });
+
+          // Add metrics badge
+          const metric = document.createElement('div');
+          metric.className = 'metrics-bar';
+          metric.textContent = `⚡ ${finalSpeed} tokens/s • ${totalElapsedSec.toFixed(2)}s • ${tokenCount} tokens`;
+          wrapper.appendChild(metric);
         }
 
       } catch (err) {
-        if (loadingMsg.parentNode) chatContainer.removeChild(loadingMsg);
-        appendMessage(`Error: ${err.message}`, 'status');
+        msg.innerHTML = `<span style="color:#f87171;">⚠️ خطأ: ${err.message}</span>`;
+        speedMeter.textContent = `فشل الطلب: ${err.message}`;
       } finally {
+        isGenerating = false;
         sendBtn.disabled = false;
+        sendBtn.innerHTML = `<span>إرسال</span><span>⚡</span>`;
         userPrompt.focus();
       }
     }
@@ -357,6 +803,12 @@
         e.preventDefault();
         sendPrompt();
       }
+    });
+
+    // Auto-grow textarea
+    userPrompt.addEventListener('input', () => {
+      userPrompt.style.height = '54px';
+      userPrompt.style.height = Math.min(userPrompt.scrollHeight, 160) + 'px';
     });
   </script>
 </body>
